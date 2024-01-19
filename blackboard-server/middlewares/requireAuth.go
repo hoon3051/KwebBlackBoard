@@ -2,11 +2,12 @@ package middlewares
 
 import (
 	"fmt"
-	"hoon/KwebBlackBoard/blackboard-server/initializers"
-	"hoon/KwebBlackBoard/blackboard-server/models"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"

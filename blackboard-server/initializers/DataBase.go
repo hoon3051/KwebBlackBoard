@@ -2,8 +2,9 @@ package initializers
 
 import (
 	"fmt"
-	"hoon/KwebBlackBoard/blackboard-server/models"
 	"os"
+
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

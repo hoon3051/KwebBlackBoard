@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"hoon/KwebBlackBoard/blackboard-server/controllers"
-	"hoon/KwebBlackBoard/blackboard-server/initializers"
-	"github.com/gin-contrib/cors"
 	"time"
 
+	"github.com/gin-contrib/cors"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/controllers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,14 +25,14 @@ func main() {
 	router := gin.Default()
 
 	config := cors.Config{
-        AllowOrigins:     []string{"http://localhost:5173"}, // 클라이언트의 도메인 명시
-        AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
-        AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
-        AllowCredentials: true, // withCredentials 요청 허용
-        MaxAge:           12 * time.Hour,
-    }
+		AllowOrigins:     []string{"http://localhost:5173"}, // 클라이언트의 도메인 명시
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
+		AllowCredentials: true, // withCredentials 요청 허용
+		MaxAge:           12 * time.Hour,
+	}
 
-    router.Use(cors.New(config))
+	router.Use(cors.New(config))
 
 	controllers.AuthRoutes(router)
 	controllers.CourseRoutes(router)

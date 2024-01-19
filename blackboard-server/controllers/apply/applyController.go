@@ -1,11 +1,12 @@
 package apply
 
 import (
-	"hoon/KwebBlackBoard/blackboard-server/initializers"
-	"hoon/KwebBlackBoard/blackboard-server/models"
-	"hoon/KwebBlackBoard/blackboard-server/utils"
 	"log"
 	"net/http"
+
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -177,7 +178,6 @@ func DeleteAppliedStudent(c *gin.Context) {
 	result1 := initializers.DB.Joins("JOIN teaches ON teaches.course_id = courses.id").
 		Where("teaches.professor_id = ? AND teaches.course_id = ?", professorid, courseid).
 		First(&course)
-
 
 	// 에러가 있다면 에러를 출력한다
 	if result1.Error != nil {

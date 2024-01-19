@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"hoon/KwebBlackBoard/blackboard-server/initializers"
-	"hoon/KwebBlackBoard/blackboard-server/models"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 
 	"net/http"
 	"os"

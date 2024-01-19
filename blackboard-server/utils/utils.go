@@ -1,11 +1,12 @@
 package utils
 
 import (
-	"hoon/KwebBlackBoard/blackboard-server/models"
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"errors"
+	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 )
 
 // GetUser 함수는 Gin 컨텍스트에서 사용자 정보를 추출하고 검증합니다.

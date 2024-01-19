@@ -1,10 +1,11 @@
 package course
 
 import (
-	"hoon/KwebBlackBoard/blackboard-server/initializers"
-	"hoon/KwebBlackBoard/blackboard-server/models"
-	"hoon/KwebBlackBoard/blackboard-server/utils"
 	"net/http"
+
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/utils"
 
 	"github.com/gin-gonic/gin"
 )

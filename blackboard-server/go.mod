@@ -1,4 +1,4 @@
-module hoon/KwebBlackBoard/blackboard-server
+module github.com/hoon3051/KwebBlackBoard/blackboard-server
 
 go 1.21.5
 
