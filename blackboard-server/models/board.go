@@ -7,7 +7,7 @@ type Board struct {
 	gorm.Model
 	CourseID uint
 	Title    string
-	Desc     string
+	Content  string
 
 	//board는 course의 id를 CourseID로 ManyToOne 매핑된다
 	Course Course `gorm:"foreignkey:CourseID"`
