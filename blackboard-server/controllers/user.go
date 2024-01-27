@@ -36,7 +36,7 @@ func Login(c *gin.Context) {
 	
 	//응답 보내준다
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Successfully signed in",
+		"message": "Successfully logged in",
 		"user": user,
 	})
 
@@ -69,7 +69,7 @@ func Register(c *gin.Context) {
 
 	//응답 보내준다
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Successfully created user",
+		"message": "Successfully registered",
 		"user": user,
 	})
 }

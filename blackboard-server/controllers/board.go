@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/forms"
-	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/services"
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/utils"
 
@@ -82,7 +81,7 @@ func SearchAllBoard(c *gin.Context) {
 
 	//course들의 board들을 가져온다
 	boardService := services.BoardService{}
-	boards, err := boardService.GetAllBoards([]models.Course{courses})
+	boards, err := boardService.GetAllBoards(courses)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

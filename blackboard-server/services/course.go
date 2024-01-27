@@ -43,6 +43,10 @@ func (svc CourseService) SearchAllCourse() (courses []models.Course, err error) 
 		return courses, errors.New("Failed to find courses")
 	}
 
+	if len(courses) == 0 {
+		return courses, errors.New("There is no course")
+	}
+
 	return courses, nil
 }
 
@@ -72,30 +76,43 @@ func (svc CourseService) SearchTeachCourse(user models.User) (courses []models.C
 		courses = append(courses, course)
 	}
 
+	if len(courses) == 0 {
+		return courses, errors.New("There is no course")
+	}
+
 	return courses, nil
 }
 
-func (svc CourseService) SearchApplyCourse(user models.User) (course models.Course, err error) {
+func (svc CourseService) SearchApplyCourse(user models.User) (courses []models.Course, err error) {
 	//token에서 user의 정보를 가져온다
 	studentid := user.ID
 
 	//user가 student인지 확인한다(Isprofessor ==0)
 	if user.Isprofessor {
-		return course, errors.New("You are not a student")
+		return courses, errors.New("You are not a student")
 	}
 
 	//가져온 데이터를 이용해 apply에서 course를 찾는다
-	var apply models.Apply
+	var apply []models.Apply
 	result := initializers.DB.Where("student_id = ?", studentid).Find(&apply)
 	if result.Error != nil {
-		return course, errors.New("Failed to find apply")
+		return courses, errors.New("Failed to find apply")
 	}
 
 	//찾은 course를 반환한다
-	result = initializers.DB.Where("id = ?", apply.CourseID).Find(&course)
-	if result.Error != nil {
-		return course, errors.New("Failed to find course")
+	for _, apply := range apply {
+		var course models.Course
+		result := initializers.DB.Where("id = ?", apply.CourseID).Find(&course)
+		if result.Error != nil {
+			return courses, errors.New("Failed to find course")
+		}
+		courses = append(courses, course)
 	}
 
-	return course, nil
+
+	if len(courses) == 0 {
+		return courses, errors.New("There is no course")
+	}
+
+	return courses, nil
 }

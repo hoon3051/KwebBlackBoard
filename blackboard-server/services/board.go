@@ -30,13 +30,23 @@ func (svc BoardService) GetBoard(user models.User, boardID uint) (board models.B
 		return board, result.Error
 	}
 
+	if board.ID == 0 {
+		return board, result.Error
+	}
+
 	return board, nil
 }
 
 func (svc BoardService) GetBoards(courseID uint) (boards []models.Board, err error) {
 	//courseID로 board를 가져온다
-	result := initializers.DB.Where("course_id = ?", courseID).Find(&boards)
+	result := initializers.DB.Where("course_id = ?", courseID).
+	Order("updated_at DESC").
+	Find(&boards)
 	if result.Error != nil {
+		return boards, result.Error
+	}
+
+	if len(boards) == 0 {
 		return boards, result.Error
 	}
 
@@ -62,10 +72,14 @@ func (svc BoardService) GetAllBoards(courses []models.Course) (boards []models.B
 	}
 
 	result := initializers.DB.Where("course_id IN ?", courseIDs).
-	Where("updated_at DESC").
+	Order("updated_at DESC").
 	Limit(10).
 	Find(&boards)
 	if result.Error != nil {
+		return boards, result.Error
+	}
+
+	if len(boards) == 0 {
 		return boards, result.Error
 	}
 

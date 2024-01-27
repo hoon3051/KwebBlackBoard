@@ -8,7 +8,7 @@ type User struct {
 	Username      string
 	Password      string
 	Displayname   string
-	Studentnumber int32
+	Studentnumber string
 	Isprofessor   bool
 
 	//user의 id는 teach, apply에 OneToMany 매핑된다

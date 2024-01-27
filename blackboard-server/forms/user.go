@@ -9,17 +9,17 @@ type UserForm struct{}
 
 // LoginForm은 로그인 정보를 담는 폼입니다.
 type LoginForm struct {
-	Username string `form:"username" json:"username" binding:"required,email"` 
+	Username string `form:"username" json:"username" binding:"required"` 
 	Password string `form:"password" json:"password" binding:"required,min=4,max=30"`
 }
 
 // RegisterForm은 회원가입 정보를 담는 폼입니다.
 type RegisterForm struct {
-		Username      string `form:"username" json:"username" binding:"required,email"`
+		Username      string `form:"username" json:"username" binding:"required"`
 		Password      string `form:"password" json:"password" binding:"required,min=4,max=30"`
 		Displayname   string `form:"displayname" json:"displayname" binding:"required,min=2,max=30"`
-		Studentnumber int32	 `form:"studentnumber" json:"studentnumber" binding:"required,min=10,max=10"`
-		Isprofessor   bool 	 `form:"isprofessor" json:"isprofessor" binding:"required"`
+		Studentnumber string `form:"studentnumber" json:"studentnumber" binding:"required,min=10,max=10"`
+		Isprofessor   bool 	 `form:"isprofessor" json:"isprofessor"`
 }
 
 // Custom validation error messages for RegisterForm
@@ -96,8 +96,6 @@ func (f UserForm) Username(tag string) string {
     switch tag {
     case "required":
         return "Email is required"
-    case "email":
-        return "Invalid email format"
     default:
         return "Invalid email"
     }
@@ -144,8 +142,6 @@ func (f UserForm) Studentnumber(tag string) string {
 
 func (f UserForm) Isprofessor(tag string) string {
 	switch tag {
-	case "required":
-		return "Isprofessor is required"
 	default:
 		return "Invalid isprofessor"
 	}

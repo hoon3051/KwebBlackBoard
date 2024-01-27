@@ -9,7 +9,7 @@ import (
 
 type ApplyService struct{}
 
-func (svc ApplyService) CreateApply(user models.User, cousrID uint) (apply models.Apply, err error) {
+func (svc ApplyService) CreateApply(user models.User, courseID uint) (apply models.Apply, err error) {
 	//token에서 user의 정보를 가져온다
 	studentid := user.ID
 
@@ -18,9 +18,15 @@ func (svc ApplyService) CreateApply(user models.User, cousrID uint) (apply model
 		return apply, errors.New("You are not a student")
 	}
 
+	//가져온 데이터를 이용해 이미 등록한 apply가 있는지 확인한다
+	apply = models.Apply{StudentID: studentid, CourseID: courseID}
+	result := initializers.DB.Where(&apply).First(&apply)
+	if result.Error == nil {
+		return apply, errors.New("You already applied")
+	}
+
 	//가져온 데이터를 이용해 새 apply를 생성한다
-	apply = models.Apply{StudentID: studentid, CourseID: cousrID}
-	result := initializers.DB.Create(&apply)
+	result = initializers.DB.Create(&apply)
 	if result.Error != nil {
 		return apply, result.Error
 	}
@@ -29,7 +35,7 @@ func (svc ApplyService) CreateApply(user models.User, cousrID uint) (apply model
 
 }
 
-func (svc ApplyService) GetAppliedStudent(courseID uint) (students models.User, err error) {
+func (svc ApplyService) GetAppliedStudent(courseID uint) (students []models.User, err error) {
 	//가져온 courseID와 일치하는 CourseID를 가진 apply들을 찾는다
 	var applies []models.Apply
 	result := initializers.DB.Where("course_id = ?", courseID).Find(&applies)
@@ -48,13 +54,17 @@ func (svc ApplyService) GetAppliedStudent(courseID uint) (students models.User, 
 		return students, result.Error
 	}
 
+	if len(students) == 0 {
+		return students, errors.New("There is no student")
+	}
+
 	return students, nil
 	
 }
 
 func (svc ApplyService) DeleteApply(user models.User, studentID uint, courseID uint) (err error) {
 	//user가 student인지 확인한다(Isprofessor ==0)
-	if user.Isprofessor {
+	if !user.Isprofessor {
 		return errors.New("You are not a professor")
 	}
 
