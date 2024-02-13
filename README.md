@@ -8,3 +8,5 @@ Front - React
 Back - Go
 설치: go mod tidy
 실행: CompileDaemon --command="./blackboard-server"
+
+http://localhost:5173/
