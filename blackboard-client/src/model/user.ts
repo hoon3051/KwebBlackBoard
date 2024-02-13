@@ -1,12 +1,12 @@
-export interface SignInParams{
+export interface LoginParams{
     username: string;
     password: string;
 }
 
-export interface SignUpParams{
+export interface RegisterParams{
     username: string;
     password: string;
     displayname: string;
-    studentnumber: number;
+    studentnumber: string;
     isprofessor: boolean;
 }
