@@ -18,10 +18,10 @@ func UserRoutes(router *gin.Engine) {
 
 func CourseRoutes(router *gin.Engine) {
 	router.Use(middlewares.RequireAuth)
-	router.POST("/course", controllers.CreateCourse)
-	router.GET("/course", controllers.SearchAllCourse)
 	router.GET("/course/professor", controllers.SearchTeachCourse)
 	router.GET("/course/student", controllers.SearchApplyCourse)
+	router.POST("/course", controllers.CreateCourse)
+	router.GET("/course", controllers.SearchAllCourse)
 }
 
 func ApplyRoutes(router *gin.Engine) {
@@ -34,9 +34,9 @@ func ApplyRoutes(router *gin.Engine) {
 func BoardRoutes(router *gin.Engine) {
 	router.Use(middlewares.RequireAuth)
 	router.POST("/board/:course_id", controllers.CreateBoard)
-	router.GET("/board/", controllers.SearchAllBoard)
 	router.GET("/board/:course_id", controllers.SearchCourseBoard)
 	router.GET("/board/course/:board_id", controllers.GetBoard)
+	router.GET("/board", controllers.SearchAllBoard)
 }
 
 func RouterSetupV1() *gin.Engine {
@@ -45,8 +45,9 @@ func RouterSetupV1() *gin.Engine {
 
 	config := cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"}, // 클라이언트의 도메인 명시
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true, // withCredentials 요청 허용
 		MaxAge:           12 * time.Hour,
 	}

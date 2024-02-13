@@ -25,7 +25,7 @@ func RequireAuth(c *gin.Context) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected singing method %v", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected singing method %v", token.Header["alg"])
 		}
 
 		return []byte(os.Getenv("SECRET")), nil

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
@@ -33,7 +34,7 @@ func GetUintParam(c *gin.Context, paramName string) (uint, error) {
 	paramValue := c.Param(paramName)
 	paramInt, err := strconv.ParseUint(paramValue, 10, 64)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("invalid %s: %s", paramName, paramValue)
 	}
 	return uint(paramInt), nil
 }

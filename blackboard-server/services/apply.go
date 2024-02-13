@@ -15,14 +15,14 @@ func (svc ApplyService) CreateApply(user models.User, courseID uint) (apply mode
 
 	//user가 student인지 확인한다(Isprofessor ==0)
 	if user.Isprofessor {
-		return apply, errors.New("You are not a student")
+		return apply, errors.New("당신은 학생이 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 이미 등록한 apply가 있는지 확인한다
 	apply = models.Apply{StudentID: studentid, CourseID: courseID}
 	result := initializers.DB.Where(&apply).First(&apply)
 	if result.Error == nil {
-		return apply, errors.New("You already applied")
+		return apply, errors.New("이미 수강한 강의입니다")
 	}
 
 	//가져온 데이터를 이용해 새 apply를 생성한다
@@ -38,7 +38,7 @@ func (svc ApplyService) CreateApply(user models.User, courseID uint) (apply mode
 func (svc ApplyService) GetAppliedStudent(courseID uint) (students []models.User, err error) {
 	//가져온 courseID와 일치하는 CourseID를 가진 apply들을 찾는다
 	var applies []models.Apply
-	result := initializers.DB.Where("course_id = ?", courseID).Find(&applies)
+	result := initializers.DB.Where("course_id = ? && deleted_at is NULL", courseID).Find(&applies)
 	if result.Error != nil {
 		return students, result.Error
 	}
@@ -55,7 +55,7 @@ func (svc ApplyService) GetAppliedStudent(courseID uint) (students []models.User
 	}
 
 	if len(students) == 0 {
-		return students, errors.New("There is no student")
+		return students, errors.New("강의를 수강한 학생이 없습니다")
 	}
 
 	return students, nil
@@ -65,7 +65,7 @@ func (svc ApplyService) GetAppliedStudent(courseID uint) (students []models.User
 func (svc ApplyService) DeleteApply(user models.User, studentID uint, courseID uint) (err error) {
 	//user가 student인지 확인한다(Isprofessor ==0)
 	if !user.Isprofessor {
-		return errors.New("You are not a professor")
+		return errors.New("당신은 교수가 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 apply를 찾는다
@@ -88,7 +88,7 @@ func (svc ApplyService) DeleteApply(user models.User, studentID uint, courseID u
 func (svc ApplyService) GetApply(user models.User, courseID uint) (apply models.Apply, err error) {
 	//user가 student인지 확인한다(Isprofessor ==0)
 	if user.Isprofessor {
-		return apply, errors.New("You are not a student")
+		return apply, errors.New("당신은 학생이 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 apply를 찾는다

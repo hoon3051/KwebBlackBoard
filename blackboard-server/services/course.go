@@ -15,14 +15,14 @@ func (svc CourseService) CreateCourse(user models.User, courseForm forms.CreateC
 	//token에서 user의 정보를 가져오고, 교수인지 확인한다(Isprofessor ==1)
 	professorid := user.ID
 	if !user.Isprofessor {
-		return course, errors.New("You are not a professor")
+		return course, errors.New("당신은 교수가 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 새 course를 생성한다
 	course = models.Course{Coursenumber: courseForm.Coursenumber, Coursename: courseForm.Coursename}
 	result := initializers.DB.Create(&course)	
 	if result.Error != nil {
-		return course, errors.New("Failed to create course")
+		return course, errors.New("강의를 생성할 수 없습니다")
 	}
 
 	//가져온 데이터를 이용해 새 teach를 생성한다
@@ -40,11 +40,11 @@ func (svc CourseService) SearchAllCourse() (courses []models.Course, err error) 
 	//모든 course를 가져온다
 	result := initializers.DB.Find(&courses)
 	if result.Error != nil {
-		return courses, errors.New("Failed to find courses")
+		return courses, errors.New("강의를 찾을 수 없습니다")
 	}
 
 	if len(courses) == 0 {
-		return courses, errors.New("There is no course")
+		return courses, errors.New("등록된 강의가 없습니다")
 	}
 
 	return courses, nil
@@ -56,7 +56,7 @@ func (svc CourseService) SearchTeachCourse(user models.User) (courses []models.C
 
 	//user가 professor인지 확인한다(Isprofessor ==1)
 	if !user.Isprofessor {
-		return courses, errors.New("You are not a professor")
+		return courses, errors.New("당신은 교수가 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 teach에서 course를 찾는다
@@ -77,7 +77,7 @@ func (svc CourseService) SearchTeachCourse(user models.User) (courses []models.C
 	}
 
 	if len(courses) == 0 {
-		return courses, errors.New("There is no course")
+		return courses, errors.New("강의를 찾을 수 없습니다")
 	}
 
 	return courses, nil
@@ -89,7 +89,7 @@ func (svc CourseService) SearchApplyCourse(user models.User) (courses []models.C
 
 	//user가 student인지 확인한다(Isprofessor ==0)
 	if user.Isprofessor {
-		return courses, errors.New("You are not a student")
+		return courses, errors.New("당신은 학생이 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 apply에서 course를 찾는다
@@ -111,7 +111,7 @@ func (svc CourseService) SearchApplyCourse(user models.User) (courses []models.C
 
 
 	if len(courses) == 0 {
-		return courses, errors.New("There is no course")
+		return courses, errors.New("수강한 강의가 없습니다")
 	}
 
 	return courses, nil

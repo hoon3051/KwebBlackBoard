@@ -15,7 +15,7 @@ func (svc TeachService) GetTeach(user models.User, courseid uint) (teach models.
 
 	//user가 professor인지 확인한다(Isprofessor ==1)
 	if !user.Isprofessor {
-		return teach, errors.New("You are not a professor")
+		return teach, errors.New("당신은 교수가 아닙니다")
 	}
 
 	//가져온 데이터를 이용해 teach를 찾는다

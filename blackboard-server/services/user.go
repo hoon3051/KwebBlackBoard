@@ -1,10 +1,10 @@
 package services
 
 import (
-	"github.com/hoon3051/KwebBlackBoard/blackboard-server/forms"
-	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
-	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
 	"github.com/gin-gonic/gin"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/forms"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/initializers"
+	"github.com/hoon3051/KwebBlackBoard/blackboard-server/models"
 
 	"net/http"
 	"os"
@@ -14,7 +14,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"errors"
-
 )
 
 type UserService struct{}
@@ -23,14 +22,14 @@ func (svc UserService) Login(c *gin.Context, loginForm forms.LoginForm) (user mo
 	//user의 정보를 찾아온다
 	initializers.DB.First(&user, "Username = ?", loginForm.Username)
 	if user.ID == 0 {
-		return user, errors.New("invalid username")
+		return user, errors.New("올바르지 않은 username입니다")
 	}
 
 	//password를 hashed password와 비교한다
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginForm.Password))
 
 	if err != nil {
-		return user, errors.New("invalid password")
+		return user, errors.New("올바르지 않은 password입니다")
 	}
 
 	//jwt token을 생성한다
@@ -56,7 +55,7 @@ func (svc UserService) Register(registerForm forms.RegisterForm) (user models.Us
 	//username이 이미 존재하는지 확인한다
 	initializers.DB.First(&user, "Username = ?", registerForm.Username)
 	if user.ID != 0 {
-		return user, errors.New("username already exists")
+		return user, errors.New("이미 존재하는 username입니다")
 	}
 
 	//password를 hash한다
@@ -78,7 +77,7 @@ func (svc UserService) Register(registerForm forms.RegisterForm) (user models.Us
 	//user를 db에 저장한다
 	result := initializers.DB.Create(&user)
 	if result.Error != nil {
-		return user, errors.New("failed to create user")
+		return user, errors.New("가입에 실패했습니다")
 	}
 
 	return user, nil

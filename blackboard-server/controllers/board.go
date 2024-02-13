@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/forms"
 	"github.com/hoon3051/KwebBlackBoard/blackboard-server/services"
@@ -103,6 +104,11 @@ func SearchCourseBoard(c *gin.Context) {
 
 	//parameter가 string이므로 uint로 변환하는 과정을 거친다
 	courseID, err := utils.GetUintParam(c, "course_id")
+	if err != nil {
+		log.Printf("Error: %v", err)
+	} else {
+		log.Printf("courseID: %d", courseID)
+	}
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid course ID"})
 		return
