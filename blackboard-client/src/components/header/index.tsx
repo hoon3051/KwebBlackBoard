@@ -30,7 +30,7 @@ const getUserInfoFromSession = () => {
 
   const Header: React.FC = () => {
 
-    const [user, setUser] = useState<{ Isprofessor?: boolean } | null>(null);
+    const [user, setUser] = useState<{ isprofessor?: boolean } | null>(null);
 
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const getUserInfoFromSession = () => {
     const getPath = () => {
         
         if (!user) return "/"; // 사용자 정보가 없으면 초기화면 메인페이지로
-        if (user.Isprofessor) return "/professor"; // 사용자가 교수면 교수 페이지로
+        if (user.isprofessor) return "/professor"; // 사용자가 교수면 교수 페이지로
         return "/student"; // 그 외에는 학생 페이지로
     };
 

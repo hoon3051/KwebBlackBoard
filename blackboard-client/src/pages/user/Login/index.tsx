@@ -46,7 +46,7 @@ const LoginPage: React.FC = () =>{
         setLoginData({...loginData, [name]: value})
     }
 
-    const [user, setUser] = useState<{ isProfessor?: boolean } | null>(null);
+    const [user, setUser] = useState<{ isprofessor?: boolean } | null>(null);
 
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const LoginPage: React.FC = () =>{
 
             // 스낵바가 충분히 표시된 후 페이지를 이동시킵니다.
             setTimeout(() => {
-                if(!user.Isprofessor){
+                if(!user.isprofessor){
                     navigate("/student");
                 }
                 else{

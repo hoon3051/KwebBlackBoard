@@ -22,6 +22,13 @@ type RegisterForm struct {
 		Isprofessor   bool 	 `form:"isprofessor" json:"isprofessor"`
 }
 
+type LoginResponse struct {
+    Username string `json:"username"`
+    Displayname string `json:"displayname"`
+    Studentnumber string `json:"studentnumber"`
+    Isprofessor bool `json:"isprofessor"`
+}
+
 // Custom validation error messages for RegisterForm
 func (f UserForm) Register(form RegisterForm) string {
 	validate := validator.New()

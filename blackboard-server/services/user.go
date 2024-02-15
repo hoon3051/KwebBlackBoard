@@ -18,18 +18,24 @@ import (
 
 type UserService struct{}
 
-func (svc UserService) Login(c *gin.Context, loginForm forms.LoginForm) (user models.User, err error) {
+func (svc UserService) Login(c *gin.Context, loginForm forms.LoginForm) (response forms.LoginResponse, err error) {
 	//user의 정보를 찾아온다
+	var user models.User
 	initializers.DB.First(&user, "Username = ?", loginForm.Username)
+	response.Username = user.Username
+	response.Displayname = user.Displayname
+	response.Studentnumber = user.Studentnumber
+	response.Isprofessor = user.Isprofessor
+
 	if user.ID == 0 {
-		return user, errors.New("올바르지 않은 username입니다")
+		return response, errors.New("올바르지 않은 username입니다")
 	}
 
 	//password를 hashed password와 비교한다
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginForm.Password))
 
 	if err != nil {
-		return user, errors.New("올바르지 않은 password입니다")
+		return response, errors.New("올바르지 않은 password입니다")
 	}
 
 	//jwt token을 생성한다
@@ -41,14 +47,16 @@ func (svc UserService) Login(c *gin.Context, loginForm forms.LoginForm) (user mo
 	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 
 	if err != nil {
-		return user, errors.New("failed to generate token")
+		return response, errors.New("failed to generate token")
 	}
 
 	//token을 보내준다
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
 
-	return user, nil
+	
+
+	return response, nil
 }
 
 func (svc UserService) Register(registerForm forms.RegisterForm) (user models.User, err error) {

@@ -109,7 +109,7 @@ const RegisterPage: React.FC = () =>{
             name="displayname"
             required
             value={registerData.displayname}
-            label="닉네임"
+            label="이름"
             onChange={handleChange}
             placeholder="your_Displayname"
             />

@@ -5,4 +5,4 @@ Front - React
 실행: npm run dev
 
 Back - Go
-실행: CompileDaemon --command="./blackboard-server"
+실행: go run main.go
