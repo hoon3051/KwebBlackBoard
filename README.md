@@ -7,4 +7,3 @@ Front - React
 
 Back - Go
 실행: go run main.go
-g
